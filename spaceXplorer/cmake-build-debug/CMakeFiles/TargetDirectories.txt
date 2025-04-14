@@ -1,0 +1,3 @@
+C:/Users/NateT/Desktop/spaceXplorer/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/NateT/Desktop/spaceXplorer/cmake-build-debug/CMakeFiles/spaceXplorer.dir
+C:/Users/NateT/Desktop/spaceXplorer/cmake-build-debug/CMakeFiles/edit_cache.dir
