@@ -8,7 +8,7 @@ void Controller(Player *player){
     inp = _getch();
     switch (inp) {
         case 'w':
-            if (player->pos.y > 0) player->pos.y -= 1;
+            if (player->pos.y > 8) player->pos.y -= 1;
             break;
         case 's':
             if (player->pos.y < GRID_SIZE - 1) player->pos.y += 1;
