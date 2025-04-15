@@ -1,6 +1,6 @@
-#include <stdio.h>
+#ifndef INPUT_H
+#define INPUT_H
 
-int main() {
-    printf("Hello, World!\n");
-    return 0;
-}
+void initInput();
+
+#endif

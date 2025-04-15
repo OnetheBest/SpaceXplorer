@@ -1,14 +1,48 @@
 #include <stdio.h>
+#include <conio.h>
+#include <windows.h>
+#include "entity.h"
+#include "input.h"
+
+
+void drawGrid(Player player) {
+    for (int y = 0; y < GRID_SIZE; y++) {
+        for (int x = 0; x < GRID_SIZE; x++) {
+            if (player.pos.x == x && player.pos.y == y)
+                printf("A");  // A = astronaut
+            else
+                printf(".");
+        }
+        printf("\n");
+    }
+    printf("Position: (%d, %d)\n", player.pos.x, player.pos.y);
+}
+
+void Controller(Player *player){
+    char inp;
+    scanf(" %c",&inp);
+    switch (inp) {
+        case 'w':
+            player->pos.y -= 1;
+            break;
+        case 's':
+            player->pos.y += 1;
+            break;
+        case 'a':
+            player->pos.x -= 1;
+            break;
+        case 'd':
+            player->pos.x += 1;
+            break;
+    }
+}
 
 int main() {
-    int difficulty;
-    printf("============================================\n");
-    printf("================SPACE XPLORER===============\n");
-    printf("Select Difficulty:\n1 - Easy\n2-Normal\n3-Hard\n4-Nightmare\n");
-    scanf("%c", &difficulty);
-
-    if (difficulty = 1) {
-        printf("easy");
+    Player player = {{GRID_SIZE / 2, GRID_SIZE / 2}, 100, 100};
+    char inp;
+    while(1) {
+        drawGrid(player);
+        Controller(&player);
     }
     return 0;
 }
