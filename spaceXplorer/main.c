@@ -18,29 +18,11 @@ void drawGrid(Player player) {
     printf("Position: (%d, %d)\n", player.pos.x, player.pos.y);
 }
 
-void Controller(Player *player){
-    char inp;
-    scanf(" %c",&inp);
-    switch (inp) {
-        case 'w':
-            player->pos.y -= 1;
-            break;
-        case 's':
-            player->pos.y += 1;
-            break;
-        case 'a':
-            player->pos.x -= 1;
-            break;
-        case 'd':
-            player->pos.x += 1;
-            break;
-    }
-}
-
 int main() {
     Player player = {{GRID_SIZE / 2, GRID_SIZE / 2}, 100, 100};
     char inp;
     while(1) {
+        system("cls");
         drawGrid(player);
         Controller(&player);
     }

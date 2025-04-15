@@ -1,5 +1,5 @@
 #ifndef ENTITY_H
-#define ENTITY_h
+#define ENTITY_H
 
 #define GRID_SIZE 24
 
