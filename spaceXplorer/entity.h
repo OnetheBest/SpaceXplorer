@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #define GRID_SIZE 24
+#define MAX_ENEMIES 8
 
 typedef struct {
     int x;
@@ -14,4 +15,8 @@ typedef struct {
     int fuel;
 } Player;
 
+typedef struct {
+    Position pos;
+    int spawned;
+} Enemy;
 #endif
