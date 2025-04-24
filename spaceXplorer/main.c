@@ -10,11 +10,9 @@ Enemy enemies[MAX_ENEMIES];
 
 void spawnEnemies() {
     for (int i = 0; i < MAX_ENEMIES; i++) {
-        int j = rand() % 5;
-            enemies[i].pos.x = rand() % GRID_SIZE;
-            enemies[i].pos.y = j;
-            enemies[i].spawned = 1;
-
+        enemies[i].pos.x = rand() % GRID_SIZE;
+        enemies[i].pos.y = 0;
+        enemies[i].spawned = 1;
     }
 }
 
@@ -25,6 +23,7 @@ void moveEnemies(Enemy enemies[], int count) {
             if (enemies[i].pos.y >= GRID_SIZE) {
                 enemies[i].spawned = 0;  // de-spawn if off screen
             }
+
         }
     }
 }
@@ -54,17 +53,20 @@ void drawGrid(Player player, Enemy enemies[], int enemyCount) {
 
 int main() {
 
+    spawnEnemies(enemies, MAX_ENEMIES);
     Player player = {{GRID_SIZE / 2, GRID_SIZE / 2}, 100, 100};
     char inp;
+    int move;
     while(1) {
         srand(time(NULL));
         int xpos = rand() % 26;
-        if (player.pos.y < GRID_SIZE-1) {system("cls");}
+        if (player.pos.y < GRID_SIZE) {system("cls");}
         drawGrid(player, enemies, MAX_ENEMIES);
         Controller(&player);
-        spawnEnemies(enemies, MAX_ENEMIES);
-        moveEnemies(enemies, MAX_ENEMIES);
-
+        if (move % 10 == 0) {
+            moveEnemies(enemies, MAX_ENEMIES);
+        }
+        move++;
         Sleep(10);
     }
     return 0;
