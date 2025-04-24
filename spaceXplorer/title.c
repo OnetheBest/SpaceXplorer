@@ -5,6 +5,9 @@
 
 Difficulty titleScreen() {
     int diff;
+        printf("==================================");
+        printf("           SPACE XPLORER          ");
+        printf("==================================\n");
         printf("\nChoose your difficulty:\n");
         printf("1. Easy\n");
         printf("2. Normal\n");
@@ -13,5 +16,4 @@ Difficulty titleScreen() {
         diff = _getch() - '0';
     fflush(stdin);
     return (Difficulty) diff;
-
 }

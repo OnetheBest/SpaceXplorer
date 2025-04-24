@@ -13,21 +13,25 @@
 
 int main() {
     Difficulty difficulty = titleScreen();
+    Sleep(400);
     int speed = 10;
     Player player = {{GRID_SIZE / 2, GRID_SIZE - 3}, 3, 100};
     applyDifficulty(player, difficulty, &speed);
     Enemy enemies[MAX_ENEMIES];
     spawnEnemies(enemies, MAX_ENEMIES);
     int move;
-
+    int pause = 0;
     while(1) {
         srand(time(NULL));
-        int xpos = rand() % 18;
         if (player.pos.y < GRID_SIZE) {system("cls");}
         drawGrid(player, enemies, MAX_ENEMIES);
         Controller(&player);
         if (move % speed == 0) {
-            moveEnemies(enemies, MAX_ENEMIES);
+            if (pause == 0) {
+                Sleep(500);
+                pause = 1;
+            }
+                moveEnemies(enemies, MAX_ENEMIES);
         }
         printf("\nLives: %d || Fuel: %d", player.health, player.fuel);
         move++;

@@ -58,11 +58,11 @@ void applyDifficulty(Player player, Difficulty difficulty, int *speed) {
             break;
         case NORMAL:
             player.health = 2;
-            *speed = 7;
+            *speed = 5;
             break;
         case HARD:
             player.health = 1;
-            *speed = 5;
+            *speed = 3;
             break;
         case NIGHTMARE:
             player.health = 1;
