@@ -18,7 +18,7 @@ void drawGrid(Player player, Enemy enemies[], int enemyCount) {
                     }
                 }
                 if (!isEnemy)
-                    printf(".");
+                    printf(" ");
             }
         }
         printf("\n");
@@ -50,4 +50,23 @@ void moveEnemies(Enemy enemies[], int count) {
     }
 }
 
-
+void applyDifficulty(Player player, Difficulty difficulty, int *speed) {
+    switch (difficulty){
+        case EASY:
+            player.health = 3;
+            *speed = 11; //slowest
+            break;
+        case NORMAL:
+            player.health = 2;
+            *speed = 7;
+            break;
+        case HARD:
+            player.health = 1;
+            *speed = 5;
+            break;
+        case NIGHTMARE:
+            player.health = 1;
+            *speed = 3; //fastest
+            break;
+    }
+}

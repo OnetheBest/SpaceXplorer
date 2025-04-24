@@ -11,6 +11,6 @@
 void drawGrid(Player player, Enemy enemies[], int enemyCount);
 void spawnEnemies();
 void moveEnemies(Enemy enemies[], int count);
-void applyDifficulty(Player player, Difficulty difficulty);
+void applyDifficulty(Player player, Difficulty difficulty,int *speed);
 
 #endif
