@@ -9,4 +9,6 @@ add_executable(spaceXplorer main.c
         input.c
         game.h
         entity.h
-        input.h)
+        input.h
+        title.c
+        title.h)

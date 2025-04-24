@@ -1,8 +1,16 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#define GRID_SIZE 24
-#define MAX_ENEMIES 8
+#define GRID_SIZE 18
+#define MAX_ENEMIES 15
+
+
+typedef enum {
+    EASY = 1,
+    NORMAL,
+    HARD,
+    NIGHTMARE
+} Difficulty;
 
 typedef struct {
     int x;
