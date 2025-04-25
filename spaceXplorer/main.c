@@ -10,16 +10,16 @@
 
 
 
-
 int main() {
+    Enemy enemies[MAX_ENEMIES];
     Difficulty difficulty = titleScreen();
     Sleep(400);
     int speed = 10;
     Player player = {{GRID_SIZE / 2, GRID_SIZE - 3}, 3, 100};
-    applyDifficulty(player, difficulty, &speed);
-    Enemy enemies[MAX_ENEMIES];
+    applyDifficulty(&player, difficulty, &speed);
     spawnEnemies(enemies, MAX_ENEMIES);
     int move;
+    int deplete;
     int pause = 0;
     while(1) {
         srand(time(NULL));
@@ -32,10 +32,12 @@ int main() {
                 pause = 1;
             }
                 moveEnemies(enemies, MAX_ENEMIES);
+            depleteFuel(&player);
         }
         printf("\nLives: %d || Fuel: %d", player.health, player.fuel);
         move++;
-        Sleep(1);
+        deplete++;
+        Sleep(10);
     }
     return 0;
 }

@@ -2,7 +2,7 @@
 #define ENTITY_H
 
 #define GRID_SIZE 18
-#define MAX_ENEMIES 15
+#define MAX_ENEMIES 40
 
 
 typedef enum {
