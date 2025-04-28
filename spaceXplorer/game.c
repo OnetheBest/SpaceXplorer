@@ -8,22 +8,46 @@
 #define rk "\x1b[31;40m"
 #define rs "\x1b[0m"
 
-void drawGrid(Player player, Enemy enemies[], int enemyCount) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+void drawGrid(Player player, Enemy enemies[], int enemyCount, Collectible collectibles[], int collectibleCount, Bullet bullet) {
     for (int y = 0; y < GRID_SIZE; y++) {
         for (int x = 0; x < GRID_SIZE; x++) {
-            if (player.pos.x == x && player.pos.y == y)
-                printf( "A");  // A = astronaut
+            int drawn = 0;
+            //Draw player
+            if (player.pos.x == x && player.pos.y == y) {
+                printf("A");  // A = astronaut
+                drawn = 1;
+            }
             else {
+                //Draw enemies
                 int isEnemy = 0;
                 for (int i = 0; i < enemyCount; i++) {
                     if (enemies[i].spawned && enemies[i].pos.x == x && enemies[i].pos.y == y) {
                         printf("V");  // Enemy
                         isEnemy = 1;
-                        break;
+                        drawn = 1;
                     }
                 }
-                if (!isEnemy)
+            //Draw bullet
+                if (bullet.active && bullet.pos.x == x && bullet.pos.y == y && !drawn){
+                    printf("|");
+                    drawn = 1;
+                }
+
+        // Draw powerups
+        for (int i = 0; i <collectibleCount; i++) {
+            if (collectibles[i].active && collectibles[i].pos.x == x && collectibles[i].pos.y == y) {
+                switch (collectibles[i].type) {
+                    case BULLET:
+                        printf("!");
+                        break;
+                    case FUEL:
+                        printf("+");
+                        break;
+                }
+               drawn = 1;
+            }
+        }
+                if (!isEnemy && !drawn)
 
                     printf(" ");
             }
@@ -48,7 +72,7 @@ void spawnEnemies(Enemy enemies[MAX_ENEMIES], Difficulty difficulty) {
 
 
 
-void moveEnemies(Enemy enemies[], int count) {
+void moveEnemies(Enemy enemies[], int count, Collectible collectibles[], int collectibleCount) {
     for (int i = 0; i < count; i++) {
         if (enemies[i].spawned) {
             enemies[i].pos.y++;  // move enemy down
@@ -57,6 +81,18 @@ void moveEnemies(Enemy enemies[], int count) {
                 enemies[i].pos.x = rand() % GRID_SIZE;
             }
 
+        }
+        //introduces 30% chance to spawn a collectible when enemy respawns
+        if (rand() % 100 < 30) {
+            for ( int j = 0; j < collectibleCount; j++) {
+                if (!collectibles[j].active){
+                    collectibles[j].pos.x = rand() % GRID_SIZE;
+                    collectibles[j].pos.y = rand() % GRID_SIZE;
+                    collectibles[j].active = 1;
+                    collectibles[j].type = rand() % 2;
+                    break;
+                }
+            }
         }
     }
 }
@@ -85,5 +121,39 @@ void applyDifficulty(Player *player, Difficulty difficulty, int *speed) {
             player->health = 1;
             *speed = 3; //fastest
             break;
+    }
+}
+
+void spawnCollectibles(Collectible c[], int count) {
+    for (int i = 0; i < count; i++) {
+        c[i].pos.x = rand() % GRID_SIZE;
+        c[i].pos.y = (rand() % 10) + 10;
+        c[i].active = 1;
+        int type = rand() % 2;
+        if (type == 0)
+            c[i].type = BULLET;
+        else
+            c[i].type = FUEL;
+        c[i].lifetime = 10;
+        }
+}
+
+void collectPowerups(Player *player,Collectible collectibles[]) {
+    for (int i = 0; i < MAX_COLLECTIBLES; i++) {
+        if (collectibles[i].active &&
+            collectibles[i].pos.x == player->pos.x &&
+            collectibles[i].pos.y == player->pos.y) {
+
+            switch (collectibles[i].type) {
+                case BULLET:
+                    player->hasBullet = 1;  // You'll need to add this
+                    break;
+                case FUEL:
+                    player->fuel += 20;
+                    break;
+            }
+
+            collectibles[i].active = 0;
+        }
     }
 }

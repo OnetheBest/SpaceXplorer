@@ -3,6 +3,6 @@
 
 #include "entity.h"
 
-void Controller(Player *player);
+void Controller(Player *player, Bullet *bullet);
 
 #endif
