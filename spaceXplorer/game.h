@@ -10,7 +10,7 @@
 
 void drawGrid(Player player, Enemy enemies[], int enemyCount, Collectible collectibles[], int collectibleCount, Bullet bullet);
 void spawnEnemies();
-void moveEnemies(Enemy enemies[], int enemyCount, Collectible collectibles[], int collectibleCount);
+void moveEnemies(Enemy enemies[], int enemyCount, Collectible collectibles[], int collectibleCount, Player *player);
 void depleteFuel(Player *player);
 void applyDifficulty(Player *player, Difficulty difficulty,int *speed);
 void spawnCollectibles(Collectible c[], int count);

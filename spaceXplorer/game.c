@@ -70,10 +70,18 @@ void spawnEnemies(Enemy enemies[MAX_ENEMIES], Difficulty difficulty) {
 
 
 
-void moveEnemies(Enemy enemies[], int count, Collectible collectibles[], int collectibleCount) {
+void moveEnemies(Enemy enemies[], int count, Collectible collectibles[], int collectibleCount, Player *player) {
     for (int i = 0; i < count; i++) {
         if (enemies[i].spawned) {
             enemies[i].pos.y++;  // move enemy down
+
+            // Checking collision with players
+            if (enemies[i].pos.x == player->pos.x && enemies[i].pos.y == player->pos.y) {
+                player->health -= 1;
+                enemies[i].spawned = 0;
+                continue; // dont check this enemy anymore
+            }
+
             if (enemies[i].pos.y >= GRID_SIZE) {
                 enemies[i].pos.y = 0;  //go back to top
                 enemies[i].pos.x = rand() % GRID_SIZE;
