@@ -160,12 +160,39 @@ void collectPowerups(Player *player,Collectible collectibles[]) {
     }
 }
 
-void scoreHandler(int *score, int game, int count) {
-    while(game = 1) {
-        score = 0;
-        if (count % 1 != 0 ){
-            score += 1;
+void bulletBehaviour(Bullet *bullet, Enemy enemies[], int *score){
+    if (bullet->active) {
+        bullet->pos.y--;
+
+        // If bullet reaches top, deactivate
+        if (bullet->pos.y < 0) {
+            bullet->active = 0;
+            bullet->pos.x = -1;
+            bullet->pos.y = -1;
+        } else {
+
+            // Check collision with enemies
+            for (int i = 0; i < MAX_ENEMIES; i++) {
+                if (enemies[i].spawned &&
+                    enemies[i].pos.x == bullet->pos.x &&
+                    enemies[i].pos.y == bullet->pos.y) {
+                    enemies[i].spawned = 0;
+                    bullet->active = 0;
+                    bullet->pos.x = -1;
+                    bullet->pos.y = -1;
+                    *score += 100;
+                    break;
+                }
+            }
         }
-        count++;
+    }
+}
+
+void gameOver(Player player, Enemy enemies[], int *score, int *game) {
+    if (player.fuel <= 0 || player.health == 0) {
+        system("cls");
+        printf("GAME OVER!\n");
+        printf("Final Score: %d\n", *score);
+        game = 0;
     }
 }
