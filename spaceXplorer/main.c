@@ -23,17 +23,34 @@ int main() {
     spawnCollectibles(collectibles, MAX_COLLECTIBLES);
     int move;
     int deplete;
+    int count;
+    int game = 1;
     int pause = 0;
+    int score = 0;
     while(1) {
         srand(time(NULL));
-        if (player.pos.y < GRID_SIZE) {system("cls");}
+        if (player.pos.y < GRID_SIZE) { system("cls"); }
+        Controller(&player, &bullet);
+
+                if (move % speed == 0) {
+            if (pause == 0) {
+                Sleep(500);
+                pause = 1;
+            }
+            moveEnemies(enemies, MAX_ENEMIES, collectibles, MAX_COLLECTIBLES);
+            score += 1;
+            depleteFuel(&player);
+        }
+
         if (bullet.active) {
             bullet.pos.y--;
 
             // If bullet reaches top, deactivate
             if (bullet.pos.y < 0) {
                 bullet.active = 0;
-            }
+                bullet.pos.x = -1;
+                bullet.pos.y = -1;
+            } else {
 
             // Check collision with enemies
             for (int i = 0; i < MAX_ENEMIES; i++) {
@@ -42,27 +59,30 @@ int main() {
                     enemies[i].pos.y == bullet.pos.y) {
                     enemies[i].spawned = 0;
                     bullet.active = 0;
+                    bullet.pos.x = -1;
+                    bullet.pos.y = -1;
+                    score += 100;
                     break;
                 }
             }
         }
-        drawGrid(player, enemies, MAX_ENEMIES, collectibles, MAX_COLLECTIBLES, bullet);
-        Controller(&player, &bullet);
-        if (move % speed == 0) {
-            if (pause == 0) {
-                Sleep(500);
-                pause = 1;
-            }
-            moveEnemies(enemies, MAX_ENEMIES, collectibles, MAX_COLLECTIBLES);
+    }
 
-            depleteFuel(&player);
-        }
 
-        //logic to be moved
+
         collectPowerups(&player, collectibles);
 
 
+        drawGrid(player, enemies, MAX_ENEMIES, collectibles, MAX_COLLECTIBLES, bullet);
+
+
         printf("\nLives: %d || Fuel: %d", player.health, player.fuel);
+        if (player.hasBullet)
+            printf(" || BULLET READY");
+        else
+            printf(" || NO BULLET");
+
+        printf("\nScore: %d", score);
         move++;
         deplete++;
         Sleep(10);

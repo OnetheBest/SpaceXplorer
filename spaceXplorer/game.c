@@ -19,22 +19,20 @@ void drawGrid(Player player, Enemy enemies[], int enemyCount, Collectible collec
             }
             else {
                 //Draw enemies
-                int isEnemy = 0;
-                for (int i = 0; i < enemyCount; i++) {
+                for (int i = 0; i < enemyCount && !drawn; i++) {
                     if (enemies[i].spawned && enemies[i].pos.x == x && enemies[i].pos.y == y) {
                         printf("V");  // Enemy
-                        isEnemy = 1;
                         drawn = 1;
                     }
                 }
             //Draw bullet
-                if (bullet.active && bullet.pos.x == x && bullet.pos.y == y && !drawn){
+                if (!drawn && bullet.active && bullet.pos.x == x && bullet.pos.y == y){
                     printf("|");
                     drawn = 1;
                 }
 
         // Draw powerups
-        for (int i = 0; i <collectibleCount; i++) {
+        for (int i = 0; i <collectibleCount && !drawn; i++) {
             if (collectibles[i].active && collectibles[i].pos.x == x && collectibles[i].pos.y == y) {
                 switch (collectibles[i].type) {
                     case BULLET:
@@ -47,7 +45,7 @@ void drawGrid(Player player, Enemy enemies[], int enemyCount, Collectible collec
                drawn = 1;
             }
         }
-                if (!isEnemy && !drawn)
+                if (!drawn)
 
                     printf(" ");
             }
@@ -79,21 +77,22 @@ void moveEnemies(Enemy enemies[], int count, Collectible collectibles[], int col
             if (enemies[i].pos.y >= GRID_SIZE) {
                 enemies[i].pos.y = 0;  //go back to top
                 enemies[i].pos.x = rand() % GRID_SIZE;
+                //30% chance for collectibles to spawn
+                if (rand() % 100 < 30) {
+                    for (int j = 0; j < collectibleCount; j++) {
+                        if (!collectibles[j].active){
+                            collectibles[j].pos.x = rand() % GRID_SIZE;
+                            collectibles[j].pos.y = (rand() % 10) +8;
+                            collectibles[j].active = 1;
+                            collectibles[j].type = rand() % 2;
+                            break;
+                        }
+                    }
+                }
             }
 
         }
-        //introduces 30% chance to spawn a collectible when enemy respawns
-        if (rand() % 100 < 30) {
-            for ( int j = 0; j < collectibleCount; j++) {
-                if (!collectibles[j].active){
-                    collectibles[j].pos.x = rand() % GRID_SIZE;
-                    collectibles[j].pos.y = rand() % GRID_SIZE;
-                    collectibles[j].active = 1;
-                    collectibles[j].type = rand() % 2;
-                    break;
-                }
-            }
-        }
+
     }
 }
 
@@ -125,6 +124,7 @@ void applyDifficulty(Player *player, Difficulty difficulty, int *speed) {
 }
 
 void spawnCollectibles(Collectible c[], int count) {
+    srand(time(NULL));
     for (int i = 0; i < count; i++) {
         c[i].pos.x = rand() % GRID_SIZE;
         c[i].pos.y = (rand() % 10) + 10;
@@ -155,5 +155,17 @@ void collectPowerups(Player *player,Collectible collectibles[]) {
 
             collectibles[i].active = 0;
         }
+
+
+    }
+}
+
+void scoreHandler(int *score, int game, int count) {
+    while(game = 1) {
+        score = 0;
+        if (count % 1 != 0 ){
+            score += 1;
+        }
+        count++;
     }
 }

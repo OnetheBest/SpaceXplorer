@@ -15,5 +15,6 @@ void depleteFuel(Player *player);
 void applyDifficulty(Player *player, Difficulty difficulty,int *speed);
 void spawnCollectibles(Collectible c[], int count);
 void collectPowerups(Player *player,Collectible collectibles[]);
+void scoreHandler(int *score, int game, int count);
 
 #endif

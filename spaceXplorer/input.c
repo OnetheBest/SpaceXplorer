@@ -21,10 +21,12 @@ void Controller(Player *player, Bullet *bullet){
                 if (player->pos.x < GRID_SIZE - 1) player->pos.x += 1;
                 break;
             case 'e':
-                if (player->hasBullet = 1) bullet->pos.x = player->pos.x;
+                if (player->hasBullet && !bullet->active)
+                bullet->pos.x = player->pos.x;
                 bullet->pos.y = player->pos.y - 1;
                 bullet->active = 1;
                 player->hasBullet = 0;
+                break;
         }
     }
 }
