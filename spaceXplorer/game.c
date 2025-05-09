@@ -18,18 +18,25 @@ void drawGrid(Player player, Enemy enemies[], int enemyCount, Collectible collec
                 drawn = 1;
             }
             else {
+                //Draw bullet
+                if (!drawn && bullet.active && bullet.pos.x == x && bullet.pos.y == y){
+                    printf("o");
+                    drawn = 1;
+                }
+
                 //Draw enemies
                 for (int i = 0; i < enemyCount && !drawn; i++) {
                     if (enemies[i].spawned && enemies[i].pos.x == x && enemies[i].pos.y == y) {
                         printf("V");  // Enemy
                         drawn = 1;
                     }
+                  //  if ((bullet.pos.x == enemies[i].pos.x && bullet.pos.y == enemies[i].pos.y)
+                 //       || enemies[i].pos.x == bullet.pos.x && enemies[i].pos.y == bullet.pos.y+1){
+                  //      drawn = 0;
+                 //   }
                 }
-            //Draw bullet
-                if (!drawn && bullet.active && bullet.pos.x == x && bullet.pos.y == y){
-                    printf("o");
-                    drawn = 1;
-                }
+
+
 
         // Draw powerups
         for (int i = 0; i <collectibleCount && !drawn; i++) {
@@ -44,7 +51,11 @@ void drawGrid(Player player, Enemy enemies[], int enemyCount, Collectible collec
                 }
                drawn = 1;
             }
+            if (collectibles[i].lifetime <= 0){
+                drawn = 0;
+            }
         }
+
                 if (!drawn)
 
                     printf(" ");
@@ -60,8 +71,22 @@ void drawGrid(Player player, Enemy enemies[], int enemyCount, Collectible collec
 
 void spawnEnemies(Enemy enemies[MAX_ENEMIES]) {
     for (int i = 0; i < MAX_ENEMIES; i++) {
-        enemies[i].pos.x = rand() % GRID_SIZE;
-            enemies[i].pos.y = 0;
+        int newX, unique;
+        do {
+            unique = 1;
+            newX = rand() % GRID_SIZE;
+
+            for (int j = 0; j < i; j++) {
+                if (enemies[j].spawned && enemies[j].pos.x == newX && enemies[j].pos.y == 0) {
+                    unique = 0;
+                    break;
+                }
+            }
+        } while (!unique);
+
+        enemies[i].pos.x = newX;
+        enemies[i].pos.y = 0;
+
 
         enemies[i].spawned = 1;
     }
@@ -71,6 +96,11 @@ void spawnEnemies(Enemy enemies[MAX_ENEMIES]) {
 
 void moveEnemies(Enemy enemies[], int count, Collectible collectibles[], int collectibleCount, Player *player) {
     for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++) {
+            if (!enemies[i].spawned) continue;  // Skip dead enemies ✅
+
+        }
+
         if (enemies[i].spawned) {
             enemies[i].pos.y++;  // move enemy down
 
@@ -82,8 +112,22 @@ void moveEnemies(Enemy enemies[], int count, Collectible collectibles[], int col
             }
 
             if (enemies[i].pos.y >= GRID_SIZE) {
-                enemies[i].pos.y = 0;  //go back to top
-                enemies[i].pos.x = rand() % GRID_SIZE;
+                int newX, unique;
+                do {
+                    unique = 1;
+                    newX = rand() % GRID_SIZE;
+
+                    for (int j = 0; j < i; j++) {
+                        if (enemies[j].spawned && enemies[j].pos.x == newX && enemies[j].pos.y == 0) {
+                            unique = 0;
+                            break;
+                        }
+                    }
+                } while (!unique);
+
+                enemies[i].pos.x = newX;
+                enemies[i].pos.y = 0;
+
                 //30% chance for collectibles to spawn
                 if (rand() % 100 < 30) {
                     for (int j = 0; j < collectibleCount; j++) {
@@ -136,13 +180,15 @@ void spawnCollectibles(Collectible c[], int count) {
         c[i].pos.x = rand() % GRID_SIZE;
         c[i].pos.y = (rand() % 10) + 10;
         c[i].active = 1;
-        int type = rand() % 2;
-        if (type == 0)
+        int type = 0;
+        if (type == 0){
             c[i].type = BULLET;
-        else
+        c[i].lifetime = 10;}
+        else {
             c[i].type = FUEL;
-        c[i].lifetime = 10;
+            c[i].lifetime = 10;
         }
+    }
 }
 
 void collectPowerups(Player *player,Collectible collectibles[]) {
@@ -190,8 +236,19 @@ void bulletBehaviour(Bullet *bullet, Enemy enemies[], int *score, int timer){
                         *score += 100;
                         return;
                 }
+                   else if (enemies[i].pos.x == bullet->pos.x &&
+                        enemies[i].pos.y  == bullet->pos.y+1) {
+                        enemies[i].spawned = 0;
+                        bullet->active = 0;
+                        bullet->pos.x = -1;
+                        bullet->pos.y = -1;
+                        enemies[i].pos.x = -1;
+                        enemies[i].pos.y = -1;
+                        *score += 100;
+                        return;
+                    }
             }
-            if (timer % 4 == 0) {
+            if (timer % 2 == 0) {
                 bullet->pos.y--;
             }
         }

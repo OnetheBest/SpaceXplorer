@@ -2,8 +2,9 @@
 #define ENTITY_H
 
 #define GRID_SIZE 18
-#define MAX_ENEMIES 25
+#define MAX_ENEMIES 14
 #define MAX_COLLECTIBLES 2
+#define MAX_JUNK 10
 
 typedef enum {
     EASY = 1,
@@ -45,4 +46,9 @@ typedef struct {
     Position pos;
     int active;
 } Bullet;
+
+typedef struct {
+    Position pos;
+    int active;
+} Junk;
 #endif

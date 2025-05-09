@@ -34,7 +34,6 @@ int main() {
         applyDifficulty(&player, difficulty, &speed);
         spawnEnemies(enemies, MAX_ENEMIES);
         spawnCollectibles(collectibles, MAX_COLLECTIBLES);
-
         //Game loop
         while(!gameOverCondition) {
             system("cls");
@@ -64,7 +63,7 @@ int main() {
 
             move++;
             timer++;
-           Sleep(1);
+           Sleep(10);
 
             if (player.fuel <= 0 || player.health <= 0) {
                 gameOverCondition = 1;
@@ -81,7 +80,7 @@ int main() {
         saveScores(score);
         char choice = getch();
         if (choice != 'r' && choice != 'R') {
-            continue;
+           break;
         }
     }
 
