@@ -91,6 +91,12 @@ build CMakeFiles/spaceXplorer.dir/title.c.obj: C_COMPILER__spaceXplorer_Debug C$
   OBJECT_DIR = CMakeFiles\spaceXplorer.dir
   OBJECT_FILE_DIR = CMakeFiles\spaceXplorer.dir
 
+build CMakeFiles/spaceXplorer.dir/scores.c.obj: C_COMPILER__spaceXplorer_Debug C$:/Users/NateT/Desktop/spaceXplorer/scores.c || cmake_object_order_depends_target_spaceXplorer
+  DEP_FILE = CMakeFiles\spaceXplorer.dir\scores.c.obj.d
+  FLAGS = -g -std=gnu99
+  OBJECT_DIR = CMakeFiles\spaceXplorer.dir
+  OBJECT_FILE_DIR = CMakeFiles\spaceXplorer.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target spaceXplorer
@@ -99,7 +105,7 @@ build CMakeFiles/spaceXplorer.dir/title.c.obj: C_COMPILER__spaceXplorer_Debug C$
 #############################################
 # Link the executable spaceXplorer.exe
 
-build spaceXplorer.exe: C_EXECUTABLE_LINKER__spaceXplorer_Debug CMakeFiles/spaceXplorer.dir/main.c.obj CMakeFiles/spaceXplorer.dir/game.c.obj CMakeFiles/spaceXplorer.dir/entity.c.obj CMakeFiles/spaceXplorer.dir/input.c.obj CMakeFiles/spaceXplorer.dir/title.c.obj
+build spaceXplorer.exe: C_EXECUTABLE_LINKER__spaceXplorer_Debug CMakeFiles/spaceXplorer.dir/main.c.obj CMakeFiles/spaceXplorer.dir/game.c.obj CMakeFiles/spaceXplorer.dir/entity.c.obj CMakeFiles/spaceXplorer.dir/input.c.obj CMakeFiles/spaceXplorer.dir/title.c.obj CMakeFiles/spaceXplorer.dir/scores.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\spaceXplorer.dir

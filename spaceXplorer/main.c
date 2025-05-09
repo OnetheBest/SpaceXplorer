@@ -7,6 +7,7 @@
 #include "input.h"
 #include "game.h"
 #include "title.h"
+#include "scores.h"
 
 int main() {
     while (1) {
@@ -18,6 +19,7 @@ int main() {
         int move = 0;
         int pause = 0;
         int score = 0;
+        int timer = 0;
         int gameOverCondition = 0;
 
         //Call difficulty chooser
@@ -48,7 +50,7 @@ int main() {
                 depleteFuel(&player);
             }
 
-            bulletBehaviour(&bullet, enemies, &score);
+            bulletBehaviour(&bullet, enemies, &score, timer);
             collectPowerups(&player, collectibles);
             drawGrid(player, enemies, MAX_ENEMIES, collectibles, MAX_COLLECTIBLES, bullet);
 
@@ -61,12 +63,14 @@ int main() {
             printf("\nScore: %d", score);
 
             move++;
-            Sleep(10);
+            timer++;
+           Sleep(1);
 
             if (player.fuel <= 0 || player.health <= 0) {
                 gameOverCondition = 1;
             }
         }
+
 
         // === Game Over screen ===
         system("cls");
@@ -74,9 +78,10 @@ int main() {
         printf("Your final score: %d\n", score);
         printf("Press 'R' to restart or any other key to quit...\n");
 
+        saveScores(score);
         char choice = getch();
         if (choice != 'r' && choice != 'R') {
-            break;
+            continue;
         }
     }
 

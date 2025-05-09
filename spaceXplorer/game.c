@@ -27,7 +27,7 @@ void drawGrid(Player player, Enemy enemies[], int enemyCount, Collectible collec
                 }
             //Draw bullet
                 if (!drawn && bullet.active && bullet.pos.x == x && bullet.pos.y == y){
-                    printf("|");
+                    printf("o");
                     drawn = 1;
                 }
 
@@ -53,17 +53,16 @@ void drawGrid(Player player, Enemy enemies[], int enemyCount, Collectible collec
         printf("\n");
 
     }
+
     printf("Position: (%d, %d)\n", player.pos.x, player.pos.y);
 
 }
 
-void spawnEnemies(Enemy enemies[MAX_ENEMIES], Difficulty difficulty) {
+void spawnEnemies(Enemy enemies[MAX_ENEMIES]) {
     for (int i = 0; i < MAX_ENEMIES; i++) {
         enemies[i].pos.x = rand() % GRID_SIZE;
+            enemies[i].pos.y = 0;
 
-        if (difficulty != NIGHTMARE) {
-            enemies[i].pos.y = 0;  // anywhere
-        }
         enemies[i].spawned = 1;
     }
 }
@@ -154,7 +153,7 @@ void collectPowerups(Player *player,Collectible collectibles[]) {
 
             switch (collectibles[i].type) {
                 case BULLET:
-                    player->hasBullet = 1;  // You'll need to add this
+                    player->hasBullet = 1;
                     break;
                 case FUEL:
                     player->fuel += 20;
@@ -168,9 +167,8 @@ void collectPowerups(Player *player,Collectible collectibles[]) {
     }
 }
 
-void bulletBehaviour(Bullet *bullet, Enemy enemies[], int *score){
+void bulletBehaviour(Bullet *bullet, Enemy enemies[], int *score, int timer){
     if (bullet->active) {
-        bullet->pos.y--;
 
         // If bullet reaches top, deactivate
         if (bullet->pos.y < 0) {
@@ -180,27 +178,22 @@ void bulletBehaviour(Bullet *bullet, Enemy enemies[], int *score){
         } else {
 
             // Check collision with enemies
-            for (int i = 0; i < MAX_ENEMIES; i++) {
-                if (enemies[i].spawned &&
-                    enemies[i].pos.x == bullet->pos.x &&
-                    enemies[i].pos.y == bullet->pos.y) {
-                    enemies[i].spawned = 0;
-                    bullet->active = 0;
-                    bullet->pos.x = -1;
-                    bullet->pos.y = -1;
-                    *score += 100;
-                    break;
+                for (int i = 0; i < MAX_ENEMIES; i++) {
+                    if (enemies[i].pos.x == bullet->pos.x &&
+                        enemies[i].pos.y  == bullet->pos.y) {
+                        enemies[i].spawned = 0;
+                        bullet->active = 0;
+                        bullet->pos.x = -1;
+                        bullet->pos.y = -1;
+                        enemies[i].pos.x = -1;
+                        enemies[i].pos.y = -1;
+                        *score += 100;
+                        return;
                 }
             }
+            if (timer % 4 == 0) {
+                bullet->pos.y--;
+            }
         }
-    }
-}
-
-void gameOver(Player player, Enemy enemies[], int *score, int *game) {
-    if (player.fuel <= 0 || player.health == 0) {
-        system("cls");
-        printf("GAME OVER!\n");
-        printf("Final Score: %d\n", *score);
-        game = 0;
     }
 }

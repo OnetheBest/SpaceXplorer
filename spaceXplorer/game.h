@@ -15,7 +15,6 @@ void depleteFuel(Player *player);
 void applyDifficulty(Player *player, Difficulty difficulty,int *speed);
 void spawnCollectibles(Collectible c[], int count);
 void collectPowerups(Player *player,Collectible collectibles[]);
-void bulletBehaviour(Bullet *bullet, Enemy enemies[], int *score);
-void gameOver(Player player, Enemy enemies[], int *score, int *game);
+void bulletBehaviour(Bullet *bullet, Enemy enemies[], int *score, int timer);
 
 #endif
