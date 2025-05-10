@@ -97,8 +97,7 @@ void spawnEnemies(Enemy enemies[MAX_ENEMIES]) {
 void moveEnemies(Enemy enemies[], int count, Collectible collectibles[], int collectibleCount, Player *player) {
     for (int i = 0; i < count; i++) {
         for (int i = 0; i < count; i++) {
-            if (!enemies[i].spawned) continue;  // Skip dead enemies ✅
-
+            if (!enemies[i].spawned) continue;
         }
 
         if (enemies[i].spawned) {
@@ -180,7 +179,7 @@ void spawnCollectibles(Collectible c[], int count) {
         c[i].pos.x = rand() % GRID_SIZE;
         c[i].pos.y = (rand() % 10) + 10;
         c[i].active = 1;
-        int type = 0;
+        int type = rand() %2;
         if (type == 0){
             c[i].type = BULLET;
         c[i].lifetime = 10;}

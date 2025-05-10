@@ -53,11 +53,11 @@ int main() {
             collectPowerups(&player, collectibles);
             drawGrid(player, enemies, MAX_ENEMIES, collectibles, MAX_COLLECTIBLES, bullet);
 
-            printf("\nLives: %d || Fuel: %d", player.health, player.fuel);
-            if (player.hasBullet)
-                printf(" || BULLET READY");
-            else
-                printf(" || NO BULLET");
+                printf("\nLives: %d || Fuel: %d", player.health, player.fuel);
+                if (player.hasBullet)
+                    printf(" || BULLET READY");
+                else
+                    printf(" || NO BULLET");
 
             printf("\nScore: %d", score);
 
@@ -78,6 +78,10 @@ int main() {
         printf("Press 'R' to restart or any other key to quit...\n");
 
         saveScores(score);
+
+        //prevents game from automaticalaly crashing
+        while (_kbhit()) _getch();
+        Sleep(2000);
         char choice = getch();
         if (choice != 'r' && choice != 'R') {
            break;

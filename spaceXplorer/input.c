@@ -27,6 +27,13 @@ void Controller(Player *player, Bullet *bullet){
                 bullet->active = 1;
                 player->hasBullet = 0;
                 break;
+            case 'i':
+                printf("\n=== INVENTORY ===\n");
+                printf("Fuel: %d\n", player->fuel);
+                printf("Bullet: %s\n", player->hasBullet ? "Ready" : "None");
+                printf("Press any key to continue...\n");
+                _getch();  // pause screen until any key
+                break;
         }
     }
 }
